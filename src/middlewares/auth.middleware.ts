@@ -10,7 +10,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   }
 
   const token = authHeader.split(" ")[1];
-  console.log("Token recibido:", token); // 👈 Verificamos el token recibido
+  console.log("Token recibido:", token); //  Verificamos el token recibido
 
   if (!token) {
     return res.status(401).json({ error: "Token no proporcionado" });
@@ -18,7 +18,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-    console.log("Token decodificado:", decoded); // 👈 Vemos el contenido del token
+    console.log("Token decodificado:", decoded); //  Vemos el contenido del token
     req.user = decoded;  
     next();
   } catch (error) {
