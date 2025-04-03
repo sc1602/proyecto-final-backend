@@ -47,3 +47,33 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error al crear el usuario" });
   }
 };
+
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+      const { email, password } = req.body;
+  
+      // Buscar usuario en la base de datos
+      const user = await prisma.user.findUnique({ where: { email } });
+  
+      if (!user) {
+        return res.status(401).json({ error: "Credenciales incorrectas" });
+      }
+  
+      // Verificar contraseña
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ error: "Credenciales incorrectas" });
+      }
+  
+      // Generar Token JWT
+      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
+        expiresIn: "1h",
+      });
+  
+      res.json({ token, user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Error en el servidor" });
+    }
+  };
+  
