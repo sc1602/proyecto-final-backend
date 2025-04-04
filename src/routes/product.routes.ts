@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getProducts, createProduct } from "../controllers/product.controller";
 import { authenticateToken } from "../middlewares/auth.middleware";
+
 const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
@@ -26,8 +27,6 @@ router.put("/:id", async (req, res) => {
       res.status(500).json({ error: "Error al actualizar el producto" });
     }
   });
-  
-
   
 
 export default router;

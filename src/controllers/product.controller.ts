@@ -4,7 +4,7 @@ import { prisma } from "../config/database";
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const products = await prisma.product.findMany();
-
+    
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: "Error al obtener productos" });
